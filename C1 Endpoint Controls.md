@@ -19,11 +19,32 @@
    - Note    : Check if it is possible to find status for all devices using Intune?
 
 3. Access to Control Panel :
-   - Purpose : 
-   - Command :
-   - Risk    :
+   - Purpose : Verify whether user access to the Control Panel is restricted. Restricting access helps prevent users from modifying critical system settings that could reduce security posture or bypass enforcement policies.
+   - Command : Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -ErrorAction Stop | Select-Object NoControlPanel
+      - 1 = Access to Control Panel is blocked ; 0 or missing = Access is allowed 
+   - Risk    : If users can access the Control Panel, they may disable security settings, alter network or firewall configurations, install unauthorized software, or modify user accounts.
+   - Ref    : https://medium.com/@sanjaykrishna1203/disabling-the-entire-control-panel-in-windows-using-registry-5de95959a919 
 
 4. LM Hash is not stored :
+   - Purpose : Ensure that Windows is not storing LAN Manager (LM) password hashes, which are outdated and easily cracked.
+   - Command : Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -ErrorAction Stop | Select-Object NoLMHash
+      - 1 = LM hash not stored (secure) ; 0 or missing = LM hash may be stored (insecure)
+   - Risk    : Can be extracted and brute-forced with minimal resources
+   - Note    : Even if LM hash storage is disabled, existing LM hashes remain until users change their passwords, so enforce password changes after disabling LM hashes.
+
+5. Access to CMD :
    - Purpose : 
    - Command :
    - Risk    :
+   - Note    : Need to check manually as since we are running scripts we will have access to CMD and powershell
+
+6. Forced Auto Restarts are Disabled :
+   - Purpose : Ensure that automatic restarts after Windows Updates do not occur without user awareness or control.
+   - Command : Get-ItemProperty -Path 'HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU' -ErrorAction Stop | Select-Object NoAutoRebootWithLoggedOnUsers
+   - Risk    : Forced restarts may cause loss of unsaved work and interrupt important tasks or services.
+   - Note    : Check if this is implemented via Intune or some other way?
+
+7. 
+     
+
+
