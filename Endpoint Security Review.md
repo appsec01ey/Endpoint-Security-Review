@@ -8,5 +8,8 @@
    - Purpose : Review installed applications on an endpoint to identify any unauthorized or non-whitelisted software.
    - Command : Get-Package | Select Name, Version
    - Risk    : Risk of Malwares and Backdoors , increase attack surface
+   - Ref     : https://www.youtube.com/watch?v=ildHLspps7M
+   - Note    : We can also use Microsoft Intune to fetch list of all installed apps on a device
+               (https://learn.microsoft.com/en-us/intune/intune-service/apps/app-discovered-apps)
 
 2. 
