@@ -12,4 +12,12 @@
    - Note    : We can also use Microsoft Intune to fetch list of all installed apps on a device
                (https://learn.microsoft.com/en-us/intune/intune-service/apps/app-discovered-apps)
 
-2. 
+2. Group policy update status :
+   - Purpose : 
+   - Command :
+   - Risk    :
+
+3. Access to Control Panel :
+   - Purpose :
+   - Command :
+   - Risk    :
