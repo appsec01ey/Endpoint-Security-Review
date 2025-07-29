@@ -13,11 +13,17 @@
                (https://learn.microsoft.com/en-us/intune/intune-service/apps/app-discovered-apps)
 
 2. Group policy update status :
+   - Purpose : Ensure that the endpoint is receiving and applying group policy updates as expected. This helps enforce security settings such as password policies, firewall rules, software restrictions, and more. 
+   - Command : gpresult /r [gpresult /r | findstr /c:"Last time Group Policy was applied:"]
+   - Risk    : Missing critical security configurations
+   - Note    : Check if it is possible to find status for all devices using Intune?
+
+3. Access to Control Panel :
    - Purpose : 
    - Command :
    - Risk    :
 
-3. Access to Control Panel :
-   - Purpose :
+4. LM Hash is not stored :
+   - Purpose : 
    - Command :
    - Risk    :
