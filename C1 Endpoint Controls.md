@@ -56,15 +56,35 @@
    - Purpose : Ensure that UAC is enabled to prevent unauthorized changes to the operating system by requiring administrative approval for elevated tasks.
    - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -ErrorAction Stop | Select-Object EnableLUA, ConsentPromptBehaviorAdmin, PromptOnSecureDesktop 
    - Risk    : Disabling or weakening UAC increases the risk of privilege escalation and unauthorized system modifications.
-   - Note    : UAC can be bypassed by some malware if the prompt level is too low, so recommend EnableLUA = 1, PromptOnSecureDesktop = 1, ConsentPromptBehaviorAdmin = 2.
-  
-9. Powershell Auditing (Module Logging , ScriptBlockLogging , Transcription) :
+   - Note    : UAC can be bypassed by some malware if the prompt level is too low, so recommend EnableLUA = 1, PromptOnSecureDesktop = 1, ConsentPromptBehaviorAdmin = 2
+
+9. Access to Powershell :
    - Purpose :
    - Command :
    - Risk    :
-   - Note    :
+   - Note    : Need to check manually as since we are running scripts we will have access to CMD and powershell
+    
+11. Powershell Auditing (Module Logging , ScriptBlockLogging , System wide Transcription) :
+   - Script Block Logging :
+      - Purpose : It records code blocks as they are executed, including dynamically generated code
+      - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging' -ErrorAction Stop | Select-Object EnableScriptBlockLogging
+      - Risk    : Malicious scripts can go undetected in the system
+      - Note    :
+         - Enable Protected Event Logging along with Script Block logging cz logging can store sensitive data in logs and if attacker gain access to this logs they may steal data , Protected Event Logging encrypts sensititve data such as usernames , passwords and code logic and can be decrypted later using private key. 
+         - EDR like crowdstrike might have these capabilities too //need to do research.
+      - Ref     : https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1
       
-      
+   - Module Logging :
+      - Purpose : 
+      - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging' -ErrorAction Stop | Select-Object EnableModuleLogging
+      - Risk    :
+
+   - System Wide Transcription :
+      - Purpose :
+      - Command :
+      - Risk    :
+
+     
      
 
 
