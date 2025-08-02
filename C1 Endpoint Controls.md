@@ -97,7 +97,10 @@
 
 12. RDP Checks :
    - Purpose : Ensure RDP is disabled if not required, and if enabled, that Network Level Authentication (NLA) and strong encryption are enforced to prevent unauthorized access and mitigate brute-force/RDP exploitation risks.
-   - Commands : 
+   - Commands :
+      -  Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -ErrorAction Stop | Select-Object fDenyTSConnections
+      -  Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -ErrorAction Stop | Select-Object UserAuthentication , MinEncryptionLevel
+   - Risk : 1. RDP Enabled without NLA → susceptible to credential theft, brute-force, and ransomware deployment 2. Weak encryption → possible interception of RDP traffic 3. RDP Enabled when unnecessary → increases attack surface. 
 
      
      
