@@ -86,21 +86,21 @@
       - Note    : If attacker has enough permissions , they can delete the log file
 
 11. Script Execution Policy :
-   - Purpose : Ensure PowerShell script execution policy is set to restrict unauthorized or malicious scripts from running.
-   - Command : Get-ExecutionPolicy -List
-   - Note    : Typical values:
+    - Purpose : Ensure PowerShell script execution policy is set to restrict unauthorized or malicious scripts from running.
+    - Command : Get-ExecutionPolicy -List
+    - Note    : Typical values:
       - Restricted → No scripts can run (most secure, but can break automation)
       - AllSigned → Only scripts signed by a trusted publisher can run (recommended for enterprise)
       - RemoteSigned → Local scripts run, downloaded scripts must be signed (acceptable for many orgs)
       - Unrestricted / Bypass → Scripts can run without restriction (insecure)
-   - Risk    : If set to Unrestricted or Bypass, malicious scripts can execute without warning, increasing risk of compromise , For RemoteSigned we can manipulate Zone.Identifier to bypass
+    - Risk    : If set to Unrestricted or Bypass, malicious scripts can execute without warning, increasing risk of compromise , For RemoteSigned we can manipulate Zone.Identifier to bypass
 
 12. RDP Checks :
-   - Purpose : Ensure RDP is disabled if not required, and if enabled, that Network Level Authentication (NLA) and strong encryption are enforced to prevent unauthorized access and mitigate brute-force/RDP exploitation risks.
-   - Commands :
+    - Purpose : Ensure RDP is disabled if not required, and if enabled, that Network Level Authentication (NLA) and strong encryption are enforced to prevent unauthorized access and mitigate brute-force/RDP exploitation risks.
+    - Commands :
       -  Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -ErrorAction Stop | Select-Object fDenyTSConnections
       -  Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -ErrorAction Stop | Select-Object UserAuthentication , MinEncryptionLevel
-   - Risk : 1. RDP Enabled without NLA → susceptible to credential theft, brute-force, and ransomware deployment 2. Weak encryption → possible interception of RDP traffic 3. RDP Enabled when unnecessary → increases attack surface. 
+    - Risk : 1. RDP Enabled without NLA → susceptible to credential theft, brute-force, and ransomware deployment 2. Weak encryption → possible interception of RDP traffic 3. RDP Enabled when unnecessary → increases attack surface. 
 
 13. Cached Logon Count :
     - Purpose : Verify that the number of cached domain logons is limited to reduce the risk of credential theft if a device is stolen or compromised offline. Cached credentials can be extracted and cracked if stored locally.
