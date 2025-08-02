@@ -66,7 +66,7 @@
     
 11. Powershell Auditing (Module Logging , ScriptBlockLogging , System wide Transcription) :
    - Script Block Logging :
-      - Purpose : It records code blocks as they are executed, including dynamically generated code
+      - Purpose : It records code blocks as they are executed, including dynamically generated code. It also records the output path.
       - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging' -ErrorAction Stop | Select-Object EnableScriptBlockLogging
       - Risk    : Malicious scripts can go undetected in the system
       - Note    :
@@ -74,15 +74,30 @@
          - EDR like crowdstrike might have these capabilities too //need to do research.
       - Ref     : https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1
       
-   - Module Logging :
-      - Purpose : 
+   - Module Logging : 
+      - Purpose : It records the pipeline execution details of PowerShell. This includes the commands which are executed including command invocations and some portion of the scripts. It may not have the entire detail of the execution and the output results.
       - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging' -ErrorAction Stop | Select-Object EnableModuleLogging
-      - Risk    :
+      - Risk    : Malicious scripts can go undetected in the system 
 
    - System Wide Transcription :
-      - Purpose :
-      - Command :
-      - Risk    :
+      - Purpose : Logs both Input and Output of PS scripts , commands into a file 
+      - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription' -ErrorAction Stop | Select-Object EnableTranscripting, OutputDirectory
+      - Risk    : Malicious scripts can go undetected in the system 
+      - Note    : If attacker has enough permissions , they can delete the log file
+
+12. Script Execution Policy :
+   - Purpose : Ensure PowerShell script execution policy is set to restrict unauthorized or malicious scripts from running.
+   - Command : Get-ExecutionPolicy -List
+   - Note    : Typical values:
+      - Restricted → No scripts can run (most secure, but can break automation)
+      - AllSigned → Only scripts signed by a trusted publisher can run (recommended for enterprise)
+      - RemoteSigned → Local scripts run, downloaded scripts must be signed (acceptable for many orgs)
+      - Unrestricted / Bypass → Scripts can run without restriction (insecure)
+   - Risk    : If set to Unrestricted or Bypass, malicious scripts can execute without warning, increasing risk of compromise , For RemoteSigned we can manipulate Zone.Identifier to bypass
+
+13. RDP Checks :
+   - Purpose : Ensure RDP is disabled if not required, and if enabled, that Network Level Authentication (NLA) and strong encryption are enforced to prevent unauthorized access and mitigate brute-force/RDP exploitation risks.
+   - Commands : 
 
      
      
