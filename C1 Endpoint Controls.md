@@ -27,15 +27,16 @@
 
 4. LM Hash is not stored :
    - Purpose : Ensure that Windows is not storing LAN Manager (LM) password hashes, which are outdated and easily cracked.
-   - Command : Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -ErrorAction Stop | Select-Object NoLMHash
+   - Command : Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -ErrorAction Stop | Select-Object NoLMHash , LmCompatibilityLevel
       - 1 = LM hash not stored (secure) ; 0 or missing = LM hash may be stored (insecure)
    - Risk    : Can be extracted and brute-forced with minimal resources
    - Note    : Even if LM hash storage is disabled, existing LM hashes remain until users change their passwords, so enforce password changes after disabling LM hashes.
 
 5. Access to CMD :
-   - Purpose : 
-   - Command :
-   - Risk    :
+   - Purpose : Prevent unauthorized users from using the Command Prompt to execute commands, run scripts, or bypass security controls.
+   - Command : Get-ItemProperty -Path 'HKCU:\Software\Policies\Microsoft\Windows\System' -ErrorAction Stop | Select-Object DisableCMD
+      - DisableCMD 1 = disable the prompt and prevent batch files from running ; 2 = to disable the prompt but allow batch files
+   - Risk    : If CMD is accessible, malicious users could run system commands, modify configurations, or execute malware payloads.
    - Note    : Need to check manually as since we are running scripts we will have access to CMD and powershell
 
 6. Forced Auto Restarts are Disabled :
@@ -44,7 +45,14 @@
    - Risk    : Forced restarts may cause loss of unsaved work and interrupt important tasks or services.
    - Note    : Check if this is implemented via Intune or some other way?
 
-7. 
+7. Prohibit Software Installations :
+   - Purpose : Prevent users from installing unauthorized software, reducing the risk of malware infections, unlicensed software, and policy violations.
+   - Command : Get-ItemProperty -Path 'HKLM:\Software\Policies\Microsoft\Windows\Installer' -ErrorAction Stop | Select-Object DisableMSI 
+   - Risk    : Allowing uncontrolled installations increases attack surface, risk of malicious payloads
+   - Note    : This only covers MSI-based installs; .exe installers may still run unless blocked by AppLocker, WDAC, or Intune App Protection policies.
+               Check Manually by installing exes and also check on crowdstrike portal for blocking
+
+      
      
 
 
