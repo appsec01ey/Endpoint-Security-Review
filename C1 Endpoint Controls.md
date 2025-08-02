@@ -52,6 +52,18 @@
    - Note    : This only covers MSI-based installs; .exe installers may still run unless blocked by AppLocker, WDAC, or Intune App Protection policies.
                Check Manually by installing exes and also check on crowdstrike portal for blocking
 
+8. User Account Control (UAC) Status :
+   - Purpose : Ensure that UAC is enabled to prevent unauthorized changes to the operating system by requiring administrative approval for elevated tasks.
+   - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -ErrorAction Stop | Select-Object EnableLUA, ConsentPromptBehaviorAdmin, PromptOnSecureDesktop 
+   - Risk    : Disabling or weakening UAC increases the risk of privilege escalation and unauthorized system modifications.
+   - Note    : UAC can be bypassed by some malware if the prompt level is too low, so recommend EnableLUA = 1, PromptOnSecureDesktop = 1, ConsentPromptBehaviorAdmin = 2.
+  
+9. Powershell Auditing (Module Logging , ScriptBlockLogging , Transcription) :
+   - Purpose :
+   - Command :
+   - Risk    :
+   - Note    :
+      
       
      
 
