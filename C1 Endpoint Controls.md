@@ -102,7 +102,15 @@
       -  Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -ErrorAction Stop | Select-Object UserAuthentication , MinEncryptionLevel
    - Risk : 1. RDP Enabled without NLA → susceptible to credential theft, brute-force, and ransomware deployment 2. Weak encryption → possible interception of RDP traffic 3. RDP Enabled when unnecessary → increases attack surface. 
 
+13. Cached Logon Count :
+    - Purpose : Verify that the number of cached domain logons is limited to reduce the risk of credential theft if a device is stolen or compromised offline. Cached credentials can be extracted and cracked if stored locally.
+    - Command : Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' | Select-Object CachedLogonsCount
+    - Risk    : Credential dumping and offline bruteforce
      
-     
+14. Access to Open Shares :
+    - Purpose : Ensure the endpoint does not have unauthorized shared folders or network share access that could expose sensitive data or allow lateral movement in a network attack.
+    - Command : Get-SmbShare
+    - Risk    : Allows unauthenticated users to browse shares.
+
 
 
