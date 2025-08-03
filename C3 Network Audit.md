@@ -19,6 +19,7 @@
    - Command : netsh advfirewall show allprofiles
 
 7.  Active & Listening TCP Connections :
-   - Purpose :
-   - Command :
+    - Purpose :  Identify open/listening ports and active TCP connections to detect potentially unauthorized services or suspicious remote connections. This can reveal malware, backdoors, or unapproved applications communicating over the network.
+    - Command : Get-NetTCPConnection | Where-Object { $_.'State' -eq 'Listen' -or $_.'State' -eq 'Established' } | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, OwningProcess | Format-Table -AutoSize
+      
      
